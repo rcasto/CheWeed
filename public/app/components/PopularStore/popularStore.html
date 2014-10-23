@@ -1,8 +1,12 @@
 <div ng-controller="PopularStore">
     <ul class="stores">
         <li ng-repeat="store in stores">
-            {{ strain }}
+            {{ store.name }} : {{ store.distanceAway }} miles away
         </li>
     </ul>
-    <div ng-click="getStores(1, 10)">Click for test</div>
+    <div ng-hide="stores.length > 0">
+        Hold on a second, we are finding the dispensaries nearest you...
+    </div>
+    <button ng-show="currentPage > 0" ng-click="prev()">Prev</button>
+    <button ng-show="currentPage + 1 < numPages" ng-click="next()">Next</button>
 </div>
