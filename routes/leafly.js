@@ -3,8 +3,8 @@ var request = require('request');
 
 var router = express.Router();
 
-var app_id = "c8e3ed05";
-var app_key = "2110900bd8cdf5d5283300cc50ca21e8";
+var app_id = "fake";
+var app_key = "fake";
 
 var leafly_api = "http://data.leafly.com";
 
