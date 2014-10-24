@@ -14,11 +14,31 @@ ul {
 .bold {
     font-weight: bold;
 }
+.underline {
+  text-decoration: underline;
+}
+.italic {
+  font-style: italic;
+}
 .searchContainer {
-    margin: 15px;
+    margin: 12px;
 }
 .storeContainer {
 
+}
+.storeHeader {
+}
+.storeMenu {
+  margin: 10px;
+}
+.storeLoading {
+
+}
+.storeNavigation {
+
+}
+.storePageInfo {
+  margin: 10px;
 }
 #title {
     font-weight: bold;

@@ -1,12 +1,26 @@
 <div ng-controller="StoreCtrl" class="storeContainer">
-    <ul class="stores" ng-show="storeState.showStores">
-        <li ng-repeat="store in storeState.stores">
-        <span class="bold">{{ store.name }}</span>, {{ store.distanceAway.toFixed(2) }} miles away
-        </li>
-    </ul>
-    <div ng-show="storeState.loading">
+    <div ng-hide="storeState.loading">
+        <div class="storeHeading underline bold">
+            These are the dispensaries closest to you
+        </div>
+        <div class="storeMenu">
+            <ul class="stores">
+                <li ng-repeat="store in storeState.stores">
+                <span class="italic">{{ store.name }}</span>, {{ store.distanceAway.toFixed(2) }} miles away
+                </li>
+            </ul>
+        </div>
+        <div class="storeNavigation">
+            <button ng-show="currentPage > 0" ng-click="prev()">Prev</button>
+            <button ng-show="currentPage + 1 < numPages" ng-click="next()">Next</button>
+        </div>
+    </div>
+
+    <div class="storeLoading" ng-show="storeState.loading">
         Hold on a second, we are finding the dispensaries nearest you...
     </div>
-    <button ng-show="currentPage > 0" ng-click="prev()">Prev</button>
-    <button ng-show="currentPage + 1 < numPages" ng-click="next()">Next</button>
+
+    <div class="storePageInfo" ng-show="numPages > 0">
+        Page {{ currentPage }} of {{ numPages }}
+    </div>
 </div>

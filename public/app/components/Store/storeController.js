@@ -7,22 +7,22 @@
 
     var Store = function ($scope, $log, leaflyService, geoLocationService, loggerService) {
         var defaultConfig = {
-            take: 50,
-            userTake: 25
+            take: 50, // how many dispensaries that are retrieved from Leafly
+            userTake: 25, // how many dispensaries the user sees
+            initialPage: 0
         };
 
         $scope.storeState = {};
         $scope.storeState.stores = [];
         $scope.storeState.loading = true;
-        $scope.storeState.showStores = true;
 
-        $scope.currentPage = 0;
+        $scope.currentPage = 1;
         $scope.numPages = 0;
 
         $scope.getStores = function (page, take) {
-            var locPromise = geoLocationService.getLocation();
-
             $scope.storeState.loading = true;
+
+            var locPromise = geoLocationService.getLocation();
 
             // TODO: create timer service to contain timing logic in one object
             locPromise.then(function (success) {
@@ -32,18 +32,16 @@
 
         $scope.prev = function () {
             if ($scope.currentPage > 0) {
-                $scope.getStores(--$scope.currentPage, defaultConfig.take);
+                $scope.getStores($scope.currentPage--, defaultConfig.take);
             }
-            $scope.storeState.showStores = false;
         };
 
         // check paging context to make sure you don't go past last page
         // TODO: modify to use isFirstPage and isLastPage booleans in data from in leafly response
         $scope.next = function () {
             if ($scope.currentPage + 1 < $scope.numPages) {
-                $scope.getStores(++$scope.currentPage, defaultConfig.take);
+                $scope.getStores($scope.currentPage++, defaultConfig.take);
             }
-            $scope.storeState.showStores = false;
         };
 
         function onLocation(coords, page, take) {
@@ -74,7 +72,6 @@
             $scope.storeState.stores = stores.slice(0, defaultConfig.userTake);
 
             $scope.storeState.loading = false;
-            $scope.storeState.showStores = true;
 
             timeEnd = Date.now();
 
@@ -91,7 +88,7 @@
         }
 
         // get initial store data
-        $scope.getStores(0, defaultConfig.take);
+        $scope.getStores(defaultConfig.initialPage, defaultConfig.take);
     };
 
     app.controller('StoreCtrl', Store);
