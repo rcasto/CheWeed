@@ -11,13 +11,6 @@ var leafly_api = "http://data.leafly.com";
 var locations_api = "/locations";
 var strains_api = "/strains";
 
-function findDistance(lat1, lon1, lat2, lon2) {
-    var diff1 = lat1 - lat2, diff2 = lon1 - lon2;
-    var dist1 = Math.pow(diff1, 2);
-    var dist2 = Math.pow(diff2, 2);
-    return Math.sqrt(dist1 + dist2);
-}
-
 router.post('/searchLocations', function (req, res) {
     var data = req.body;
     request({
