@@ -16,32 +16,23 @@
         $scope.storeState.stores = [];
         $scope.storeState.loading = true;
 
-        $scope.currentPage = 1;
-        $scope.numPages = 0;
-
         $scope.getStores = function (page, take) {
+            var locPromise;
+
             $scope.storeState.loading = true;
 
-            var locPromise = geoLocationService.getLocation();
-
-            // TODO: create timer service to contain timing logic in one object
+            locPromise = geoLocationService.getLocation();
             locPromise.then(function (success) {
                 onLocation(success, page, take);
             }, onError);
         };
 
         $scope.prev = function () {
-            if ($scope.currentPage > 0) {
-                $scope.getStores($scope.currentPage--, defaultConfig.take);
-            }
+            $scope.getStores($scope.pageState.PageIndex - 1, defaultConfig.take);
         };
 
-        // check paging context to make sure you don't go past last page
-        // TODO: modify to use isFirstPage and isLastPage booleans in data from in leafly response
         $scope.next = function () {
-            if ($scope.currentPage + 1 < $scope.numPages) {
-                $scope.getStores($scope.currentPage++, defaultConfig.take);
-            }
+            $scope.getStores($scope.pageState.PageIndex + 1, defaultConfig.take);
         };
 
         function onLocation(coords, page, take) {
@@ -62,15 +53,17 @@
 
             var timeStart = Date.now(), timeEnd;
 
-            $scope.numPages = success.data.pagingContext.PageCount;
+            $scope.pageState = success.data.pagingContext;
+            console.dir($scope.pageState);
+
             stores = success.data.stores.map(function (store) {
-                store.distanceAway = geoLocationService.findDistance(lat, lon, 
+                store.distanceAway = geoLocationService.findDistance(lat, lon,
                     store.latitude, store.longitude);
                 return store;
             });
             stores.sort(compareStores);
-            $scope.storeState.stores = stores.slice(0, defaultConfig.userTake);
 
+            $scope.storeState.stores = stores.slice(0, defaultConfig.userTake);
             $scope.storeState.loading = false;
 
             timeEnd = Date.now();

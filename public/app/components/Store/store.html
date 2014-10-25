@@ -11,16 +11,15 @@
             </ul>
         </div>
         <div class="storeNavigation">
-            <button ng-show="currentPage > 0" ng-click="prev()">Prev</button>
-            <button ng-show="currentPage + 1 < numPages" ng-click="next()">Next</button>
+            <button ng-show="pageState.HasPreviousPage" ng-click="prev()">Prev</button>
+            <button ng-show="pageState.HasNextPage" ng-click="next()">Next</button>
+        </div>
+        <div class="storePageInfo" ng-show="pageState">
+            Page {{ pageState.PageNumber }} of {{ pageState.PageCount }}
         </div>
     </div>
 
     <div class="storeLoading" ng-show="storeState.loading">
         Hold on a second, we are finding the dispensaries nearest you...
-    </div>
-
-    <div class="storePageInfo" ng-show="numPages > 0">
-        Page {{ currentPage }} of {{ numPages }}
     </div>
 </div>
