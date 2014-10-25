@@ -5,8 +5,8 @@
         </div>
         <div class="storeMenu">
             <ul class="stores">
-                <li ng-repeat="store in storeState.stores">
-                <span class="italic">{{ store.name }}</span>, {{ store.distanceAway.toFixed(2) }} miles away
+                <li ng-repeat="store in storeState.stores" class="storeItem">
+                <span class="italic">{{ store.name }}</span> - {{ store.distanceAway.toFixed(2) }} miles away
                 </li>
             </ul>
         </div>

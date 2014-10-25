@@ -29,7 +29,6 @@ ul {
 .storeHeader {
 }
 .storeMenu {
-  margin: 10px;
 }
 .storeLoading {
 
@@ -39,6 +38,9 @@ ul {
 }
 .storePageInfo {
   margin: 10px;
+}
+.storeItem {
+  margin-top: 2px;
 }
 #title {
     font-weight: bold;
