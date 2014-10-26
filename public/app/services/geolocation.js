@@ -7,8 +7,10 @@
         GeoLocation = null;
     } else {
         var posOpts = {
-            enableHighAccuracy: true
+            enableHighAccuracy: true // this may slow things down
         };
+
+        var cache = {};
 
         GeoLocation = function ($q) {
             function deg2rad(deg) {
@@ -17,8 +19,21 @@
 
             this.getLocation = function () {
                 var deferred = $q.defer();
+                if (cache.coords) {
+                    console.log('geolocation cache hit!');
+                    deferred.resolve({
+                        lat: cache.coords.latitude,
+                        lon: cache.coords.longitude
+                    });
+                    return deferred.promise;
+                }
                 navigator.geolocation.getCurrentPosition(function (success) {
                     var coords = success.coords;
+                    // cache coordinates, if not already cached (TODO: add timeout, to update cache i.e. update location)
+                    // saves the time to find location again on each search
+                    if (!cache.coords) {
+                        cache.coords = coords;
+                    }
                     deferred.resolve({
                         lat: coords.latitude,
                         lon: coords.longitude
