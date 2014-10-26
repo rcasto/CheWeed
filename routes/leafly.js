@@ -23,6 +23,7 @@ router.post('/searchLocations', function (req, res) {
             app_key: app_key
         }
     }, function (error, response, body) {
+        // TODO: remove, this is unnecessary now with location caching
         body.userData = {};
         body.userData.lat = data.latitude;
         body.userData.lon = data.longitude;
