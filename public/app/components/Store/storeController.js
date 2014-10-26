@@ -36,12 +36,11 @@
         };
 
         function onLocation(coords, page, take) {
-            var lat = coords.lat, lon = coords.lon;
             leaflyService.findLocations({
                 page: page,
                 take: take,
-                latitude: lat,
-                longitude: lon
+                latitude: coords.lat,
+                longitude: coords.lon
             }).then(onStores, onError);
         }
 
@@ -51,10 +50,7 @@
             var lon = userData.lon;
             var stores;
 
-            var timeStart = Date.now(), timeEnd;
-
             $scope.pageState = success.data.pagingContext;
-            console.dir($scope.pageState);
 
             stores = success.data.stores.map(function (store) {
                 store.distanceAway = geoLocationService.findDistance(lat, lon,
@@ -65,15 +61,6 @@
 
             $scope.storeState.stores = stores.slice(0, defaultConfig.userTake);
             $scope.storeState.loading = false;
-
-            timeEnd = Date.now();
-
-            $log.log('It took ' + (timeEnd - timeStart) + " milliseconds");
-            loggerService.log({
-                info: 'time taken to calculate store distance away and sort',
-                timeTaken: (timeEnd - timeStart),
-                timeLogged: (new Date()).getTime()
-            });
         }
 
         function onError(error) {

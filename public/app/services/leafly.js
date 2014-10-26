@@ -1,12 +1,53 @@
 (function () {
     var app = angular.module("CheWeed");
 
-    var Leafly = function ($http) {
+    var Leafly = function ($http, $q) {
+
+    	var cache = {};
 
         this.findLocations = function (opts) {
-            if (!opts) { return; }
-            return $http.post('/api/searchLocations', opts);
+			var deferred = $q.defer();
+			var error = "";
+
+            if (!opts) { error = "You must call findLocations with options - javascript object"; }
+            if (!opts.latitude || !opts.longitude) { error = "You must call findLocations with coordinates (lat, lon)"; }
+            if (opts.page && opts.page < 0) { error = "You must call findLocaitons with postive page index (>= 0)"; }
+            if (opts.take && opts.take < 0) { error = "You must call findLocaitons with postive take (>= 0)"; }
+
+            if (error.length > 0) {
+            	deferred.reject(error);
+            	return deferred.promise;
+            }
+
+            var page = opts.page;
+            var take = opts.take;
+            var key = "p" + page + "t" + take;
+
+            // TODO: save cache to local storage if possible, but fallback to in memory
+
+            // check cache for page/take combo
+            if (cache[key]) {
+            	console.log('location cache hit!');
+            	deferred.resolve(cache[key]);
+            	return deferred.promise;
+            }
+
+            $http.post('/api/searchLocations', opts).then(function (success) {
+            	// cache results for quicker access later
+            	if (!cache[key]) {
+            		cache[key] = success;
+            	}
+            	deferred.resolve(success);
+            }, function (error) {
+            	deferred.reject(error);
+            });
+
+            return deferred.promise;
         };
+
+        function onLocations(locations) {
+        	console.dir(locations);
+        }
 
     };
 
