@@ -19,24 +19,18 @@
             	return deferred.promise;
             }
 
-            var page = opts.page;
-            var take = opts.take;
-            var key = "p" + page + "t" + take;
+            var key = "p" + opts.page + "t" + opts.take;
 
             // TODO: save cache to local storage if possible, but fallback to in memory
 
             // check cache for page/take combo
             if (cache[key]) {
-            	console.log('location cache hit!');
-            	deferred.resolve(cache[key]);
-            	return deferred.promise;
+                deferred.resolve(cache[key]);
+                return deferred.promise;
             }
 
             $http.post('/api/searchLocations', opts).then(function (success) {
-            	// cache results for quicker access later
-            	if (!cache[key]) {
-            		cache[key] = success;
-            	}
+            	cache[key] = success; // cache results for quicker access later
             	deferred.resolve(success);
             }, function (error) {
             	deferred.reject(error);

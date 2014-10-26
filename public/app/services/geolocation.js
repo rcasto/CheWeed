@@ -6,10 +6,12 @@
     if (!navigator.geolocation) {
         GeoLocation = null;
     } else {
-        var posOpts = {
-            enableHighAccuracy: true // this may slow things down
+        var defaultConfig = {
+            cacheExpiration: 600000, // 10 minutes in milliseconds
+            posOpts: {
+                enableHighAccuracy: true
+            }
         };
-
         var cache = {};
 
         GeoLocation = function ($q) {
@@ -19,8 +21,12 @@
 
             this.getLocation = function () {
                 var deferred = $q.defer();
-                if (cache.coords) {
-                    console.log('geolocation cache hit!');
+                console.dir(cache);
+                if (cache.lastUpdated) {
+                    console.log('Cached for ' + (Date.now() - cache.lastUpdated) + 'ms');
+                }
+                // Updates location every 10 minutes
+                if (cache.coords && (Date.now() - cache.lastUpdated) < defaultConfig.cacheExpiration) {
                     deferred.resolve({
                         lat: cache.coords.latitude,
                         lon: cache.coords.longitude
@@ -28,20 +34,17 @@
                     return deferred.promise;
                 }
                 navigator.geolocation.getCurrentPosition(function (success) {
-                    var coords = success.coords;
-                    // cache coordinates, if not already cached (TODO: add timeout, to update cache i.e. update location)
-                    // saves the time to find location again on each search
-                    if (!cache.coords) {
-                        cache.coords = coords;
-                    }
+                    // cache latest coordinates, TODO: add timeout, to update cache after certain duration
+                    cache.coords = success.coords;
+                    cache.lastUpdated = Date.now();
                     deferred.resolve({
-                        lat: coords.latitude,
-                        lon: coords.longitude
+                        lat: success.coords.latitude,
+                        lon: success.coords.longitude
                     });
                 }, function (error) {
                     console.error(error);
                     deferred.reject(error);
-                }, posOpts);
+                }, defaultConfig.posOpts);
                 return deferred.promise;
             };
 
