@@ -6,7 +6,7 @@ First make sure you have <a href="http://nodejs.org/">Node.js</a> installed.  No
 
 With these dependencies now installed, navigate to the CheWeed directory with the command prompt.
 
-First run the command <code>make install</code> to install CheWeed's dependencies
+First run the command <code>make install</code> to install CheWeed's dependencies.  If you are on Windows make sure you are running this command in a Unix-like environment such as <a href="https://cygwin.com/install.html">Cygwin</a>
 
 Then to run CheWeed execute the command <code>make start</code> 
 
