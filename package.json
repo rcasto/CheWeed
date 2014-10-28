@@ -8,6 +8,7 @@
   },
   "main": "app.js",
   "scripts": {
+    "prestart": "npm install",
     "start": "node ./bin/www",
     "postinstall": "bower install",
     "test": "node-debug ./bin/www"
