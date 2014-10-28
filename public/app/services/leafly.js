@@ -39,10 +39,6 @@
             return deferred.promise;
         };
 
-        function onLocations(locations) {
-        	console.dir(locations);
-        }
-
     };
 
     app.service('leaflyService', Leafly);

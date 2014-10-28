@@ -5,16 +5,17 @@
         return store1.distanceAway - store2.distanceAway;
     }
 
-    var Store = function ($scope, $log, leaflyService, geoLocationService, loggerService) {
+    var Store = function ($scope, $log, leaflyService, geoLocationService) {
         var defaultConfig = {
             take: 50, // how many dispensaries that are retrieved from Leafly
             userTake: 25, // how many dispensaries the user sees
             initialPage: 0
         };
 
-        $scope.storeState = {};
-        $scope.storeState.stores = [];
-        $scope.storeState.loading = true;
+        $scope.storeState = {
+            stores: [],
+            loading: true
+        };
 
         $scope.getStores = function (page, take) {
             var locPromise;

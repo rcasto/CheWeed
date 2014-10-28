@@ -8,11 +8,9 @@ var leafly_api = "http://data.leafly.com";
 var locations_api = "/locations";
 var strains_api = "/strains";
 
-var testLat = 47.607;
-var testLon = -122.333;
-
 describe('Leafly API connection testing', function () {
 
+	// TODO: edit the timeout for this test
     it('can connect to leafly api', function (done) {
     	request({
 	        url: leafly_api + strains_api,
