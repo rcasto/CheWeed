@@ -11,3 +11,11 @@ First run the command <code>make install</code> to install CheWeed's dependencie
 Then to run CheWeed execute the command <code>make start</code> 
 
 Now navigate to the url <a href="http://127.0.0.1:3000">127.0.0.1:3000</a> in the browser of your choice and then you should see CheWeed in action!
+
+Testing
+=======
+In order to run the tests you must also install another npm module called karma-cli, but you must do so globally via the command <code>npm install -g karma-cli</code>
+
+After that is installed you can run the client side unit tests via the command <code>karma start karma.conf.js</code>
+
+The server side tests can be ran similarly via the command <code>mocha</code>.  Make sure you also install the mocha npm module globally via the command <code>npm install -g mocha</code>
