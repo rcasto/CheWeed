@@ -18,4 +18,4 @@ In order to run the tests you must also install another npm module called karma-
 
 After that is installed you can run the client side unit tests via the command <code>karma start karma.conf.js</code>
 
-The server side tests can be ran similarly via the command >code>mocha</code>.  Make sure you also install the mocha npm module globally via the command <code>npm install -g mocha</code>
+The server side tests can be ran similarly via the command <code>mocha</code>.  Make sure you also install the mocha npm module globally via the command <code>npm install -g mocha</code>
