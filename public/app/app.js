@@ -7,8 +7,7 @@
     ]).
     config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/', {
-            templateUrl: 'app/components/Search/search.html',
-            controller: 'SearchCtrl'
+            templateUrl: 'app/views/home-page.html'
         }).when('/search', {
 
         }).otherwise({

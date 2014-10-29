@@ -9,7 +9,6 @@ a {
 }
 ul {
     list-style-type: none;
-    margin-bottom: 10px;
 }
 .bold {
     font-weight: bold;
@@ -20,36 +19,7 @@ ul {
 .italic {
   font-style: italic;
 }
-.searchContainer {
-    margin: 12px;
-}
-.storeContainer {
-
-}
-.storeHeader {
-}
-.storeMenu {
-}
-.storeLoading {
-
-}
-.storeNavigation {
-
-}
-.storePageInfo {
-  margin: 10px;
-}
-.storeItem {
-  margin-top: 2px;
-}
 #title {
     font-weight: bold;
     font-size: 24px;
-}
-#container {
-
-}
-#search {
-    margin-bottom: 5px;
-    width: 200px
 }
