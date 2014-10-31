@@ -12,6 +12,8 @@ describe('Store Controller Tests', function () {
 
 	};
 
+	// TODO: do i need to include the angular-mocks script in footer.jade?
+
 	beforeEach(inject(function ($controller, $rootScope, $log, $q, _geoLocationService_, _leaflyService_) {
 		geoLocationService = _geoLocationService_;
 		leaflyService = _leaflyService_;

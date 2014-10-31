@@ -14,4 +14,4 @@ serverTest:
 	mocha
 
 clean:
-	sudo rm -rf ./node_modules && rm -r ./public/bower_components
+	rm -rf ./node_modules && rm -r ./public/bower_components

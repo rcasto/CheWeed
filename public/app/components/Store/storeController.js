@@ -5,44 +5,49 @@
         return store1.distanceAway - store2.distanceAway;
     }
 
-    var Store = function ($scope, $log, leaflyService, geoLocationService) {
+    var Store = function ($log, leaflyService, geoLocationService) {
         var defaultConfig = {
             take: 50, // how many dispensaries that are retrieved from Leafly
             userTake: 25, // how many dispensaries the user sees
             initialPage: 0
         };
 
-        $scope.storeState = {
+        this.storeState = {
             stores: [],
             loading: true
         };
+        this.pageState = null; // obtained when stores are loaded from leafly
 
-        $scope.getStores = function (page, take) {
+        this.getStores = function (page, take) {
+            var that = this;
             var locPromise;
 
-            $scope.storeState.loading = true;
+            this.storeState.loading = true;
 
             locPromise = geoLocationService.getLocation();
             locPromise.then(function (success) {
-                onLocation(success, page, take);
+                onLocation.apply(that, [success, page, take]);
             }, onError);
         };
 
-        $scope.prev = function () {
-            $scope.getStores($scope.pageState.PageIndex - 1, defaultConfig.take);
+        this.prev = function () {
+            this.getStores(this.pageState.PageIndex - 1, defaultConfig.take);
         };
 
-        $scope.next = function () {
-            $scope.getStores($scope.pageState.PageIndex + 1, defaultConfig.take);
+        this.next = function () {
+            this.getStores(this.pageState.PageIndex + 1, defaultConfig.take);
         };
 
         function onLocation(coords, page, take) {
+            var that = this;
             leaflyService.findLocations({
                 page: page,
                 take: take,
                 latitude: coords.lat,
                 longitude: coords.lon
-            }).then(onStores, onError);
+            }).then(function (success) {
+                onStores.apply(that, [success]);
+            }, onError);
         }
 
         function onStores(success) {
@@ -51,7 +56,7 @@
             var lon = userData.lon;
             var stores;
 
-            $scope.pageState = success.data.pagingContext;
+            this.pageState = success.data.pagingContext;
 
             stores = success.data.stores.map(function (store) {
                 store.distanceAway = geoLocationService.findDistance(lat, lon,
@@ -60,8 +65,8 @@
             });
             stores.sort(compareStores);
 
-            $scope.storeState.stores = stores.slice(0, defaultConfig.userTake);
-            $scope.storeState.loading = false;
+            this.storeState.stores = stores.slice(0, defaultConfig.userTake);
+            this.storeState.loading = false;
         }
 
         function onError(error) {
@@ -69,7 +74,7 @@
         }
 
         // get initial store data
-        $scope.getStores(defaultConfig.initialPage, defaultConfig.take);
+        this.getStores(defaultConfig.initialPage, defaultConfig.take);
     };
 
     app.controller('StoreCtrl', Store);
