@@ -1,3 +1,25 @@
 <div>
-    <h2>Test - Popular Strains</h2>
+    <div ng-hide="strainCtrl.strainState.loading">
+        <div class="underline bold">
+            Popular Strains
+        </div>
+        <div>
+            <ul>
+                <li ng-repeat="strain in strainCtrl.strainState.strains">
+                <span class="italic">{{ strain.Name }}</span> - {{ strain.Rating }} rating from {{ strain.RatingCount}} reviews
+                </li>
+            </ul>
+        </div>
+        <div >
+            <button ng-show="strainCtrl.pageState.HasPreviousPage" ng-click="strainCtrl.prev()">Prev</button>
+            <button ng-show="strainCtrl.pageState.HasNextPage" ng-click="strainCtrl.next()">Next</button>
+        </div>
+        <div ng-show="strainCtrl.pageState">
+            Page {{ strainCtrl.pageState.PageNumber }} of {{ strainCtrl.pageState.PageCount }}
+        </div>
+    </div>
+
+    <div ng-show="strainCtrl.strainState.loading">
+        Hold on a second, we are fetching the most popular strains...
+    </div>
 </div>

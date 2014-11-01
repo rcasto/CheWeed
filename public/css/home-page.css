@@ -1,4 +1,8 @@
-.home-extension {
+.home-exts {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.home-ext {
     float: left;
     width: 50%;
     overflow: hidden;

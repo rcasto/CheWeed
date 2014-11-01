@@ -1,7 +1,7 @@
 (function () {
     var app = angular.module('CheWeed');
 
-    var SearchCtrl = function ($scope, leaflyService) {
+    var SearchCtrl = function (leaflyService) {
 
     };
 

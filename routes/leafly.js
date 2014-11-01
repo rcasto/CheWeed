@@ -29,6 +29,22 @@ router.post('/searchLocations', function (req, res) {
     });
 });
 
+router.post('/popularStrains', function (req, res) {
+    var data = req.body;
+    request({
+        url: leafly_api + strains_api,
+        method: "POST",
+        body: data,
+        json: true,
+        headers: {
+            app_id: app_id,
+            app_key: app_key
+        }
+    }, function (error, response, body) {
+        res.send(body);
+    });
+});
+
 router.get('/searchStrains', function (req, res) {
 });
 

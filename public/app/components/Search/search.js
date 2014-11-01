@@ -4,12 +4,9 @@
 
 	var SearchDirective = function () {
 		return {
-			scope: {
-
-			},
 			templateUrl: 'app/components/Search/search.html',
 			controller: 'SearchCtrl',
-			controllerAs: 'search'
+			controllerAs: 'searchCtrl'
 		};
 	};
 

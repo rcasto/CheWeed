@@ -8,7 +8,7 @@
     var Store = function ($log, leaflyService, geoLocationService) {
         var defaultConfig = {
             take: 50, // how many dispensaries that are retrieved from Leafly
-            userTake: 25, // how many dispensaries the user sees
+            userTake: 10, // how many dispensaries the user sees
             initialPage: 0
         };
 

@@ -6,7 +6,7 @@
 		return {
 			templateUrl: 'app/components/Store/store.html',
 			controller: 'StoreCtrl',
-			controllerAs: 'ctrl'
+			controllerAs: 'storeCtrl'
 		};
 	};
 
