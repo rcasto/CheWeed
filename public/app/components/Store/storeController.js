@@ -21,7 +21,7 @@
         this.getStores = function (page, take) {
             var that = this;
             var locPromise;
-
+            var test;
             this.storeState.loading = true;
 
             locPromise = geoLocationService.getLocation();

@@ -10,37 +10,56 @@ var leafly_api = "http://data.leafly.com";
 var locations_api = "/locations";
 var strains_api = "/strains";
 
-router.post('/searchLocations', function (req, res) {
-    var data = req.body;
+function setHeader(leaflyResp, serverResp) {
+    var headers = leaflyResp.headers;
+    serverResp.set({
+        'cache-control': headers['cache-control'],
+        'content-type': headers['content-type']
+    });
+}
+
+router.get('/searchLocations', function (req, res) {
+    var params = req.query;
     request({
         url: leafly_api + locations_api,
         method: "POST",
-        body: data,
+        body: params,
         json: true,
         headers: {
             app_id: app_id,
             app_key: app_key
         }
     }, function (error, response, body) {
-        body.userData = {};
-        body.userData.lat = data.latitude;
-        body.userData.lon = data.longitude;
+        if (error) {
+            res.send(error);
+            return;
+        }
+        setHeader(response, res);
+        body.userData = {
+            lat: params.latitude,
+            lon: params.longitude
+        };
         res.send(body);
     });
 });
 
-router.post('/popularStrains', function (req, res) {
-    var data = req.body;
+router.get('/popularStrains', function (req, res) {
+    var params = req.query;
     request({
         url: leafly_api + strains_api,
         method: "POST",
-        body: data,
+        body: params,
         json: true,
         headers: {
             app_id: app_id,
             app_key: app_key
         }
     }, function (error, response, body) {
+        if (error) {
+            res.send(error);
+            return;
+        }
+        setHeader(response, res);
         res.send(body);
     });
 });

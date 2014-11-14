@@ -2,7 +2,7 @@ install:
 	npm install
 
 start:
-	npm install && node ./bin/www
+	node ./bin/www
 
 debug:
 	node-debug ./bin/www
