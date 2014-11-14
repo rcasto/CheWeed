@@ -10,7 +10,9 @@ var leafly_api = "http://data.leafly.com";
 var locations_api = "/locations";
 var strains_api = "/strains";
 
-function setHeader(leaflyResp, serverResp) {
+// extract cache-control settings from leafly response, set CheWeed cache-control
+// to have these same settings. copy cache-control essentially
+function copyCacheHeader(leaflyResp, serverResp) {
     var headers = leaflyResp.headers;
     serverResp.set({
         'cache-control': headers['cache-control'],
@@ -18,23 +20,43 @@ function setHeader(leaflyResp, serverResp) {
     });
 }
 
-router.get('/searchLocations', function (req, res) {
-    var params = req.query;
+function leaflyRequest(api, method, data, callback) {
     request({
-        url: leafly_api + locations_api,
-        method: "POST",
-        body: params,
+        url: leafly_api + api,
+        method: method,
+        body: data,
         json: true,
         headers: {
             app_id: app_id,
             app_key: app_key
         }
-    }, function (error, response, body) {
+    }, callback);
+}
+
+function strainsPOST(body, callback) {
+    leaflyRequest(strains_api, 'POST', body, callback);
+}
+function strainsGET(params, callback) {
+    // TODO: may need to convert javascript object to query string
+    leaflyRequest(strains_api, 'GET', body, callback);
+}
+
+function locationsPOST(body, callback) {
+    leaflyRequest(locations_api, 'POST', body, callback);
+}
+function locationsGET(params, callback) {
+    // TODO: may need to convert javascript object to query string
+    leaflyRequest(locations_api, 'GET', body, callback);
+}
+
+router.get('/searchLocations', function (req, res) {
+    var params = req.query;
+    locationsPOST(params, function (error, response, body) {
         if (error) {
             res.send(error);
             return;
         }
-        setHeader(response, res);
+        copyCacheHeader(response, res);
         body.userData = {
             lat: params.latitude,
             lon: params.longitude
@@ -45,26 +67,20 @@ router.get('/searchLocations', function (req, res) {
 
 router.get('/popularStrains', function (req, res) {
     var params = req.query;
-    request({
-        url: leafly_api + strains_api,
-        method: "POST",
-        body: params,
-        json: true,
-        headers: {
-            app_id: app_id,
-            app_key: app_key
-        }
-    }, function (error, response, body) {
+    strainsPOST(params, function (error, response, body) {
         if (error) {
             res.send(error);
             return;
         }
-        setHeader(response, res);
+        copyCacheHeader(response, res);
         res.send(body);
     });
 });
 
 router.get('/searchStrains', function (req, res) {
+});
+
+router.get('/availability', function (req, res) {
 });
 
 module.exports = router;
