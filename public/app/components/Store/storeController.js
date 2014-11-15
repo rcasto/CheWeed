@@ -20,12 +20,10 @@
 
         this.getStores = function (page, take) {
             var that = this;
-            var locPromise;
 
             this.storeState.loading = true;
 
-            locPromise = geoLocationService.getLocation();
-            locPromise.then(function (success) {
+            geoLocationService.getLocation().then(function (success) {
                 onLocation.apply(that, [success, page, take]);
             }, onError);
         };
@@ -40,6 +38,7 @@
 
         function onLocation(coords, page, take) {
             var that = this;
+            
             leaflyService.findLocations({
                 page: page,
                 take: take,

@@ -19,7 +19,7 @@
 
         	this.strainState.loading = true;
 
-        	var strainPromise = leaflyService.getPopularStrains({
+        	leaflyService.getPopularStrains({
         		page: page,
         		take: take,
         		sort: sort

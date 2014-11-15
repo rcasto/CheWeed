@@ -11,56 +11,77 @@ var leafly_api = "http://data.leafly.com";
 var locations_api = "/locations";
 var strains_api = "/strains";
 
-router.post('/searchLocations', function (req, res) {
-    var data = req.body;
+// extract cache-control settings from leafly response, set CheWeed cache-control
+// to have these same settings. copy cache-control essentially
+function copyCacheHeader(leaflyResp, serverResp) {
+    var headers = leaflyResp.headers;
+    serverResp.set({
+        'cache-control': headers['cache-control'],
+        'content-type': headers['content-type']
+    });
+}
+
+function leaflyRequest(api, method, data, callback) {
     request({
-        url: leafly_api + locations_api,
-        method: "POST",
+        url: leafly_api + api,
+        method: method,
         body: data,
         json: true,
         headers: {
             app_id: app_id,
             app_key: app_key
         }
-    }, function (error, response, body) {
-        var headers = {
-            'cache-control': response.headers['cache-control']
+    }, callback);
+}
+
+function strainsPOST(body, callback) {
+    leaflyRequest(strains_api, 'POST', body, callback);
+}
+function strainsGET(params, callback) {
+    // TODO: may need to convert javascript object to query string
+    leaflyRequest(strains_api, 'GET', body, callback);
+}
+
+function locationsPOST(body, callback) {
+    leaflyRequest(locations_api, 'POST', body, callback);
+}
+function locationsGET(params, callback) {
+    // TODO: may need to convert javascript object to query string
+    leaflyRequest(locations_api, 'GET', body, callback);
+}
+
+router.get('/searchLocations', function (req, res) {
+    var params = req.query;
+    locationsPOST(params, function (error, response, body) {
+        if (error) {
+            res.send(error);
+            return;
+        }
+        copyCacheHeader(response, res);
+        body.userData = {
+            lat: params.latitude,
+            lon: params.longitude
         };
-
-        body.userData = {};
-        body.userData.lat = data.latitude;
-        body.userData.lon = data.longitude;
-
-        res.set(headers);
         res.send(body);
     });
 });
 
-router.post('/popularStrains', function (req, res) {
-    var data = req.body;
-    request({
-        url: leafly_api + strains_api,
-        method: "POST",
-        body: data,
-        json: true,
-        headers: {
-            app_id: app_id,
-            app_key: app_key
+router.get('/popularStrains', function (req, res) {
+    var params = req.query;
+    strainsPOST(params, function (error, response, body) {
+        if (error) {
+            res.send(error);
+            return;
         }
-    }, function (error, response, body) {
-        var sha = crypto.createHash('sha1');
-        sha.update(JSON.stringify(body), 'utf8');
-        var headers = {
-            'cache-control': response.headers['cache-control'],
-            'expires': response.headers['expires'],
-            'ETag': sha.digest('base64')
-        };
-        res.set(headers);
+        copyCacheHeader(response, res);
         res.send(body);
     });
 });
 
 router.get('/searchStrains', function (req, res) {
+});
+
+router.get('/availability', function (req, res) {
 });
 
 module.exports = router;
