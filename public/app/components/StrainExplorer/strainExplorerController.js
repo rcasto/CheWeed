@@ -1,7 +1,7 @@
 (function () {
     var app = angular.module('CheWeed');
 
-    var PopularStrainCtrl = function ($log, leaflyService) {
+    var StrainExplorerCtrl = function ($log, leaflyService) {
     	var defaultConfig = {
             take: 10,
             initialPage: 0,
@@ -47,5 +47,5 @@
         this.getStrains(defaultConfig.initialPage, defaultConfig.take, defaultConfig.sort);
     };
 
-    app.controller('PopularStrainCtrl', PopularStrainCtrl);
+    app.controller('StrainExplorerCtrl', StrainExplorerCtrl);
 }());

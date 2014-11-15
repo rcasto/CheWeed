@@ -1,28 +1,5 @@
 .home-container {
 }
-.home-exts {
-    margin-left: 10%;
-    margin-right: 10%;
-}
-.home-exts:after {
-   content: "."; 
-   visibility: hidden; 
-   display: block; 
-   height: 0; 
-   clear: both;
-}
-.home-ext {
-    float: left;
-    width: 50%;
-    overflow: hidden;
-}
-.home-exts:after {
-	content: ".";
-	visibility: hidden;
-	display: block;
-	height: 0;
-	clear: both;
-}
 
 .searchContainer {
 	padding: 25px;
@@ -30,6 +7,4 @@
 .searchContainer .searchInput {
 	width: 250px; /* Todo: make size relative to font-size; */
 	height: 25px;
-}
-.searchContainer .searchButton {
 }

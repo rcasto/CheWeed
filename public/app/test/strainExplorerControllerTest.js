@@ -34,7 +34,7 @@ describe('Popular Strain Controller Tests', function () {
             return deferred.promise;
 		});
 
-		ctrl = $controller('PopularStrainCtrl', {
+		ctrl = $controller('StrainExplorerCtrl', {
 			leaflyService: leaflyService,
 			$log: $log
 		});
