@@ -1,5 +1,6 @@
 var express = require('express');
 var request = require('request');
+var crypto = require('crypto');
 
 var router = express.Router();
 
@@ -22,9 +23,15 @@ router.post('/searchLocations', function (req, res) {
             app_key: app_key
         }
     }, function (error, response, body) {
+        var headers = {
+            'cache-control': response.headers['cache-control']
+        };
+
         body.userData = {};
         body.userData.lat = data.latitude;
         body.userData.lon = data.longitude;
+
+        res.set(headers);
         res.send(body);
     });
 });
@@ -41,6 +48,14 @@ router.post('/popularStrains', function (req, res) {
             app_key: app_key
         }
     }, function (error, response, body) {
+        var sha = crypto.createHash('sha1');
+        sha.update(JSON.stringify(body), 'utf8');
+        var headers = {
+            'cache-control': response.headers['cache-control'],
+            'expires': response.headers['expires'],
+            'ETag': sha.digest('base64')
+        };
+        res.set(headers);
         res.send(body);
     });
 });

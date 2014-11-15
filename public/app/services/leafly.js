@@ -22,18 +22,18 @@
             	return deferred.promise;
             }
 
-            var key = "p" + opts.page + "t" + opts.take;
+            // var key = "p" + opts.page + "t" + opts.take;
 
             // TODO: save cache to local storage if possible, but fallback to in memory
 
             // check cache for page/take combo
-            if (cache.stores[key]) {
-                deferred.resolve(cache.stores[key]);
-                return deferred.promise;
-            }
+            // if (cache.stores[key]) {
+            //     deferred.resolve(cache.stores[key]);
+            //     return deferred.promise;
+            // }
 
             $http.post('/api/searchLocations', opts).then(function (success) {
-            	cache.stores[key] = success; // cache results for quicker access later
+            	// cache.stores[key] = success; // cache results for quicker access later
             	deferred.resolve(success);
             }, function (error) {
             	deferred.reject(error);
@@ -55,16 +55,16 @@
                 return deferred.promise;
             }
 
-            var key = "p" + opts.page + "t" + opts.take;
+            // var key = "p" + opts.page + "t" + opts.take;
 
             // check cache for page/take combo
-            if (cache.strains[key]) {
-                deferred.resolve(cache.strains[key]);
-                return deferred.promise;
-            }
+            // if (cache.strains[key]) {
+            //     deferred.resolve(cache.strains[key]);
+            //     return deferred.promise;
+            // }
 
             $http.post('/api/popularStrains', opts).then(function (success) {
-                cache.strains[key] = success; // cache results for quicker access later
+                // cache.strains[key] = success; // cache results for quicker access later
                 deferred.resolve(success);
             }, function (error) {
                 deferred.reject(error);

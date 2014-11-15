@@ -1,6 +1,15 @@
+.home-container {
+}
 .home-exts {
     margin-left: 10%;
     margin-right: 10%;
+}
+.home-exts:after {
+   content: "."; 
+   visibility: hidden; 
+   display: block; 
+   height: 0; 
+   clear: both;
 }
 .home-ext {
     float: left;
