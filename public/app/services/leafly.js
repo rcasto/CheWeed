@@ -3,11 +3,6 @@
 
     var Leafly = function ($http, $q) {
 
-    	var cache = {
-            stores: {},
-            strains: {}
-        };
-
         this.findLocations = function (opts) {
 			var deferred = $q.defer();
 			var error = "";

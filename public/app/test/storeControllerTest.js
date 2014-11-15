@@ -1,8 +1,12 @@
 describe('Store Controller Tests', function () {
+	var $rootScope;
+	var ctrl, geoLocationService, leaflyService;
 
-	beforeEach(module('CheWeed'));
-
-	var ctrl, scope, geoLocationService, leaflyService;
+    var defaultConfig = {
+        take: 50, // how many dispensaries that are retrieved from Leafly
+        userTake: 10, // how many dispensaries the user sees
+        initialPage: 0
+    };
 
 	var testCoords = {
 		lat: 10,
@@ -11,8 +15,11 @@ describe('Store Controller Tests', function () {
 	var testPageState = {
 
 	};
+	var testStores = ['store1', 'store2'];
 
-	beforeEach(inject(function ($controller, $rootScope, $log, $q, _geoLocationService_, _leaflyService_) {
+	beforeEach(module('CheWeed'));
+	beforeEach(inject(function ($controller, _$rootScope_, $log, $q, _geoLocationService_, _leaflyService_) {
+		$rootScope = _$rootScope_;
 		geoLocationService = _geoLocationService_;
 		leaflyService = _leaflyService_;
 
@@ -21,11 +28,13 @@ describe('Store Controller Tests', function () {
 			deferred.resolve(testCoords);
             return deferred.promise;
 		});
+		spyOn(geoLocationService, 'findDistance').and.returnValue(0);
+
 		spyOn(leaflyService, 'findLocations').and.callFake(function () {
 			var deferred = $q.defer();
 			deferred.resolve({
 				data: {
-					stores: ['store1', 'store2'],
+					stores: testStores,
 					pagingContext: testPageState,
 					userData: testCoords
 				}
@@ -33,23 +42,19 @@ describe('Store Controller Tests', function () {
             return deferred.promise;
 		});
 
-		scope = $rootScope.$new();
 		ctrl = $controller('StoreCtrl', {
-			$scope: scope,
 			$log: $log,
 			geoLocationService: geoLocationService,
 			leaflyService: leaflyService
 		});
+		ctrl.pageState = testPageState;
 
-		spyOn(scope, 'getStores').and.callThrough();
-		spyOn(scope, 'prev').and.callThrough();
-		spyOn(scope, 'next').and.callThrough();
+		spyOn(ctrl, 'getStores').and.callThrough();
 	}));
 
-	it('initializes store state correctly', function () {
-		expect(scope.storeState).toBeDefined();
-		expect(scope.storeState.stores).toBeDefined();
-		expect(scope.storeState.loading).toBe(true);
+	it('initializes correctly', function () {
+		expect(ctrl.storeState).toBeDefined();
+		expect(ctrl.pageState).toBeDefined();
 	});
 
 	it('gets user location on initialization', function () {
@@ -57,18 +62,19 @@ describe('Store Controller Tests', function () {
 	});
 
 	it('gets nearest stores on initialization', function () {
-		scope.$digest(); // needed to run then function after promise is resolved
+		$rootScope.$digest(); // needed to run then function after promise is resolved
 		expect(leaflyService.findLocations).toHaveBeenCalled();
-		expect(scope.storeState.stores.length).toBeGreaterThan(0);
+		expect(ctrl.storeState.stores).toEqual(testStores);
 	});
 
-	it('can get stores from leafly', function () {
-		var page = 0, take = 10;
-		scope.getStores(page, take);
-		expect(scope.getStores).toHaveBeenCalledWith(page, take);
-		expect(geoLocationService.getLocation).toHaveBeenCalled();
-		scope.$digest(); // needed to run then function after promise is resolved
-		expect(leaflyService.findLocations).toHaveBeenCalled();
+	it('prev functions properly', function () {
+		ctrl.prev();
+		expect(ctrl.getStores).toHaveBeenCalledWith(testPageState.PageIndex - 1, defaultConfig.take);
+	});
+
+	it('next functions properly', function () {
+		ctrl.next();
+		expect(ctrl.getStores).toHaveBeenCalledWith(testPageState.PageIndex + 1, defaultConfig.take);
 	});
 
 });
