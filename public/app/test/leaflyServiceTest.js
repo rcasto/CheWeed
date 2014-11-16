@@ -32,7 +32,7 @@ describe('Leafly Service Tests', function () {
 	});
 
 	it('can get strains', function () {
-		var result = leaflyService.getPopularStrains(this.opts);
+		var result = leaflyService.getStrains(this.opts);
 		$rootScope.$digest(); // needed to run then function after promise is resolved
 		expect(result.$$state.value).toBe(testData);
 	});

@@ -2,10 +2,10 @@
     var app = angular.module('CheWeed');
 
     var StrainExplorerCtrl = function ($log, leaflyService) {
-    	var defaultConfig = {
+    	this.config = {
             take: 10,
             initialPage: 0,
-            sort: 'popular'
+            sort: 'newest'
         };
 
         this.strainState = {
@@ -13,13 +13,18 @@
         	loading: true
         };
         this.pageState = null;
+        this.sortTypes = {
+            'Popular': 'popular',
+            'Top Rated': 'rating',
+            'Newest': 'newest'
+        };
 
         this.getStrains = function (page, take, sort) {
         	var that = this;
 
         	this.strainState.loading = true;
 
-        	leaflyService.getPopularStrains({
+        	leaflyService.getStrains({
         		page: page,
         		take: take,
         		sort: sort
@@ -33,18 +38,18 @@
         };
 
         this.prev = function () {
-            this.getStrains(this.pageState.PageIndex - 1, defaultConfig.take, defaultConfig.sort);
+            this.getStrains(this.pageState.PageIndex - 1, this.config.take, this.config.sort);
         };
 
         this.next = function () {
-            this.getStrains(this.pageState.PageIndex + 1, defaultConfig.take, defaultConfig.sort);
+            this.getStrains(this.pageState.PageIndex + 1, this.config.take, this.config.sort);
         };
 
         function onError(error) {
         	$log.error(error);
     	}
 
-        this.getStrains(defaultConfig.initialPage, defaultConfig.take, defaultConfig.sort);
+        this.getStrains(this.config.initialPage, this.config.take, this.config.sort);
     };
 
     app.controller('StrainExplorerCtrl', StrainExplorerCtrl);

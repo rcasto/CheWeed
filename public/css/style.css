@@ -3,6 +3,11 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   text-align: center;
 }
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 a {
   color: #00B7FF;
 }
@@ -18,7 +23,15 @@ ul {
 .italic {
   font-style: italic;
 }
+.clearfix {
+  overflow: auto;
+  zoom: 1;
+}
 #title {
     font-weight: bold;
     font-size: 24px;
+}
+#container {
+  width: 1024px;
+  margin: 0 auto;
 }

@@ -8,3 +8,26 @@
 	width: 250px; /* Todo: make size relative to font-size; */
 	height: 25px;
 }
+
+.strainSelectors {
+	width: 300px;
+	margin: 0 auto;
+	border: 1px solid black;
+}
+.strainSelectors li {
+	float: left;
+	width: 33%;
+	border-right: 1px solid black;
+}
+.strainSelectors li:last-of-type {
+	padding-right: 0;
+	border-right: 0;
+}
+
+.strainList {
+	clear: left;
+}
+.strainRating {
+	width: 65px;
+	height: 20px;
+}

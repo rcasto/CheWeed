@@ -30,7 +30,7 @@
             return deferred.promise;
         };
 
-        this.getPopularStrains = function (opts) {
+        this.getStrains = function (opts) {
             var deferred = $q.defer();
             var error = "";
 
@@ -47,7 +47,7 @@
                 params: opts // add user params
             };
 
-            $http.get('/api/popularStrains', httpOpts).then(function (success) {
+            $http.get('/api/strains', httpOpts).then(function (success) {
                 deferred.resolve(success);
             }, function (error) {
                 deferred.reject(error);

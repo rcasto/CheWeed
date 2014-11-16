@@ -2,18 +2,12 @@ describe('Store Controller Tests', function () {
 	var $rootScope;
 	var ctrl, geoLocationService, leaflyService;
 
-    var defaultConfig = {
-        take: 50, // how many dispensaries that are retrieved from Leafly
-        userTake: 10, // how many dispensaries the user sees
-        initialPage: 0
-    };
-
 	var testCoords = {
 		lat: 10,
 		lon: 10
 	};
 	var testPageState = {
-
+		PageIndex: 2
 	};
 	var testStores = ['store1', 'store2'];
 
@@ -69,12 +63,12 @@ describe('Store Controller Tests', function () {
 
 	it('prev functions properly', function () {
 		ctrl.prev();
-		expect(ctrl.getStores).toHaveBeenCalledWith(testPageState.PageIndex - 1, defaultConfig.take);
+		expect(ctrl.getStores).toHaveBeenCalledWith(testPageState.PageIndex - 1, ctrl.config.take);
 	});
 
 	it('next functions properly', function () {
 		ctrl.next();
-		expect(ctrl.getStores).toHaveBeenCalledWith(testPageState.PageIndex + 1, defaultConfig.take);
+		expect(ctrl.getStores).toHaveBeenCalledWith(testPageState.PageIndex + 1, ctrl.config.take);
 	});
 
 });

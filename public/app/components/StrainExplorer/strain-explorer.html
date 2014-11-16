@@ -1,21 +1,20 @@
 <div>
     <div ng-hide="expCtrl.strainState.loading">
-        <div class="underline bold">
-            Popular Strains
-        </div>
         <div>
-            <ul>
+            <ul class="strainSelectors clearfix">
+                <li class="bold">Popular</li>
+                <li class="bold">Top Rated</li>
+                <li class="bold">Newest</li>
+            </ul>
+            <ul class="strainList">
                 <li ng-repeat="strain in expCtrl.strainState.strains">
-                <span class="italic">{{ strain.Name }}</span> - {{ strain.Rating }} rating from {{ strain.RatingCount}} reviews
+                <span class="italic">{{ strain.Name }}</span> - {{ strain.Category }}, <img class="strainRating" ng-src="{{ strain.StarImage }}">
                 </li>
             </ul>
         </div>
         <div >
-            <button ng-show="expCtrl.pageState.HasPreviousPage" ng-click="expCtrl.prev()">Prev</button>
-            <button ng-show="expCtrl.pageState.HasNextPage" ng-click="expCtrl.next()">Next</button>
-        </div>
-        <div ng-show="expCtrl.pageState">
-            Page {{ expCtrl.pageState.PageNumber }} of {{ expCtrl.pageState.PageCount }}
+            <button ng-show="expCtrl.pageState.HasPreviousPage" ng-click="expCtrl.prev()">◀</button>
+            <button ng-show="expCtrl.pageState.HasNextPage" ng-click="expCtrl.next()">▶</button>
         </div>
     </div>
 

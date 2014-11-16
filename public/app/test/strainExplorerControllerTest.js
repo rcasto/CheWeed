@@ -2,12 +2,6 @@ describe('Popular Strain Controller Tests', function () {
 	var $rootScope;
 	var ctrl, leaflyService;
 
-	var defaultConfig = {
-        take: 10,
-        initialPage: 0,
-        sort: 'popular'
-    };
-
 	var testCoords = {
 		lat: 10,
 		lon: 10
@@ -22,7 +16,7 @@ describe('Popular Strain Controller Tests', function () {
 		$rootScope = _$rootScope_;
 		leaflyService = _leaflyService_;
 
-		spyOn(leaflyService, 'getPopularStrains').and.callFake(function () {
+		spyOn(leaflyService, 'getStrains').and.callFake(function () {
 			var deferred = $q.defer();
 			deferred.resolve({
 				data: {
@@ -50,18 +44,18 @@ describe('Popular Strain Controller Tests', function () {
 
 	it('can grab popular strains on init', function () {
 		$rootScope.$digest(); // needed to run then function after promise is resolved
-		expect(leaflyService.getPopularStrains).toHaveBeenCalled();
+		expect(leaflyService.getStrains).toHaveBeenCalled();
 		expect(ctrl.strainState.strains).toEqual(testStrains);
 	});
 
 	it('prev functions properly', function () {
 		ctrl.prev();
-		expect(ctrl.getStrains).toHaveBeenCalledWith(testPageState.PageIndex - 1, defaultConfig.take, defaultConfig.sort);
+		expect(ctrl.getStrains).toHaveBeenCalledWith(testPageState.PageIndex - 1, ctrl.config.take, ctrl.config.sort);
 	});
 
 	it('next functions properly', function () {
 		ctrl.next();
-		expect(ctrl.getStrains).toHaveBeenCalledWith(testPageState.PageIndex + 1, defaultConfig.take, defaultConfig.sort);
+		expect(ctrl.getStrains).toHaveBeenCalledWith(testPageState.PageIndex + 1, ctrl.config.take, ctrl.config.sort);
 	});
 
 });

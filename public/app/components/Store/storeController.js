@@ -6,7 +6,7 @@
     }
 
     var Store = function ($log, leaflyService, geoLocationService) {
-        var defaultConfig = {
+        this.config = {
             take: 50, // how many dispensaries that are retrieved from Leafly
             userTake: 10, // how many dispensaries the user sees
             initialPage: 0
@@ -29,11 +29,11 @@
         };
 
         this.prev = function () {
-            this.getStores(this.pageState.PageIndex - 1, defaultConfig.take);
+            this.getStores(this.pageState.PageIndex - 1, this.config.take);
         };
 
         this.next = function () {
-            this.getStores(this.pageState.PageIndex + 1, defaultConfig.take);
+            this.getStores(this.pageState.PageIndex + 1, this.config.take);
         };
 
         function onLocation(coords, page, take) {
@@ -64,7 +64,7 @@
             });
             stores.sort(compareStores);
 
-            this.storeState.stores = stores.slice(0, defaultConfig.userTake);
+            this.storeState.stores = stores.slice(0, this.config.userTake);
             this.storeState.loading = false;
         }
 
@@ -73,7 +73,7 @@
         }
 
         // get initial store data
-        this.getStores(defaultConfig.initialPage, defaultConfig.take);
+        this.getStores(this.config.initialPage, this.config.take);
     };
 
     app.controller('StoreCtrl', Store);

@@ -10,7 +10,6 @@ var strains_api = "/strains";
 
 describe('Leafly API connection testing', function () {
 
-	// TODO: edit the timeout for this test
     it('can connect to leafly api', function (done) {
     	request({
 	        url: leafly_api + strains_api,
@@ -23,10 +22,12 @@ describe('Leafly API connection testing', function () {
                 Page: 0,
                 Take: 10
             },
-            json: true
+            json: true,
+            timeout: 120000 // 2 minutes
 	    }, function (error, response, body) {
-	    	expect(!error).to.equal(true);
+	    	expect(error).not.exist();
 	    	expect(response.statusCode).to.equal(200);
+	    	expect(body).to.exist();
 	    	done();
 	    });
     });

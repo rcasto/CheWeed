@@ -66,7 +66,7 @@ router.get('/searchLocations', function (req, res) {
     });
 });
 
-router.get('/popularStrains', function (req, res) {
+router.get('/strains', function (req, res) {
     var params = req.query;
     strainsPOST(params, function (error, response, body) {
         if (error) {
