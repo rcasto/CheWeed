@@ -56,6 +56,11 @@
             return deferred.promise;
         };
 
+        // default configuration will sort results by popularity
+        this.search = function (opts) {
+
+        };
+
     };
 
     app.service('leaflyService', Leafly);

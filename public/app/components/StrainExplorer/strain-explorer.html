@@ -1,24 +1,33 @@
 <div>
-    <div ng-hide="expCtrl.strainState.loading">
-        <div>
+    <div>
+        <div class="strainExplorer">
             <ul class="strainSelectors clearfix">
                 <li class="bold">Popular</li>
                 <li class="bold">Top Rated</li>
                 <li class="bold">Newest</li>
             </ul>
-            <ul class="strainList">
-                <li ng-repeat="strain in expCtrl.strainState.strains">
-                <span class="italic">{{ strain.Name }}</span> - {{ strain.Category }}, <img class="strainRating" ng-src="{{ strain.StarImage }}">
-                </li>
-            </ul>
+            <div class="strainBox">
+                <div ng-hide="expCtrl.strainState.loading">
+                    <ul class="strainList">
+                        <li ng-repeat="strain in expCtrl.strainState.strains">
+                        <span class="italic">{{ strain.Name }}</span> - {{ strain.Category }}, <img class="strainRating" ng-src="{{ strain.StarImage }}">
+                        </li>
+                    </ul>
+                    <div >
+                        <button ng-show="expCtrl.pageState.HasPreviousPage" ng-click="expCtrl.prev()">◀</button>
+                        <button ng-show="expCtrl.pageState.HasNextPage" ng-click="expCtrl.next()">▶</button>
+                    </div>
+                </div>
+                <div ng-show="expCtrl.strainState.loading">
+                    <div class="spinner">
+                      <div class="rect1"></div>
+                      <div class="rect2"></div>
+                      <div class="rect3"></div>
+                      <div class="rect4"></div>
+                      <div class="rect5"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div >
-            <button ng-show="expCtrl.pageState.HasPreviousPage" ng-click="expCtrl.prev()">◀</button>
-            <button ng-show="expCtrl.pageState.HasNextPage" ng-click="expCtrl.next()">▶</button>
-        </div>
-    </div>
-
-    <div ng-show="expCtrl.strainState.loading">
-        Hold on a second, we are fetching the most popular strains...
     </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="searchContainer">
     <form>
-        <input type="text" placeholder="Type the strain you want here" class="searchInput" />
+        <input type="text" placeholder="Type the strain you want here" class="searchInput" ng-model="ctrl.searchState.searchText" ng-model-options="{ debounce: 1000 }" />
     </form>
 </div>

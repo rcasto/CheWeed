@@ -6,7 +6,7 @@
 		return {
 			templateUrl: 'app/components/Search/search.html',
 			controller: 'SearchCtrl',
-			controllerAs: 'searchCtrl'
+			controllerAs: 'ctrl'
 		};
 	};
 

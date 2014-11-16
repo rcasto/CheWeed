@@ -29,6 +29,7 @@
         		take: take,
         		sort: sort
         	}).then(function (success) {
+                console.log(success.data);
         		that.pageState = success.data.PagingContext;
         		that.strainState.strains = success.data.Strains;
         		that.strainState.loading = false;

@@ -48,6 +48,12 @@ describe('Popular Strain Controller Tests', function () {
 		expect(ctrl.strainState.strains).toEqual(testStrains);
 	});
 
+	it('can track loading state', function () {
+		expect(ctrl.strainState.loading).toBe(true);
+		$rootScope.$digest(); // needed to run then function after promise is resolved
+		expect(ctrl.strainState.loading).toBe(false);
+	});
+
 	it('prev functions properly', function () {
 		ctrl.prev();
 		expect(ctrl.getStrains).toHaveBeenCalledWith(testPageState.PageIndex - 1, ctrl.config.take, ctrl.config.sort);
